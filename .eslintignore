@@ -1,0 +1,13 @@
+README.md
+randIndex.html
+randStyle.css
+.gitignore
+css/**
+img/**
+js/chartjs
+.DS_Store
+.eslintrc
+.eslintignore
+LICENSE
+chart.js
+README.doc

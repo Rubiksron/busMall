@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var imagesArray = [];
 
@@ -43,19 +43,19 @@ function getThreeImages() {
 function duplicatePreventer() {
   while (image1.src === image2.src || image1.src === image3.src || image2.src === image3.src){
     getThreeImages();
-  };
+  }
 }
 function getRandomImage1() {
   randomNumber1 = Math.floor(Math.random() * imagesArray.length);
-  document.getElementById('image1').src= "images-to-be-used/" +  imagesArray[randomNumber1].filePath;
+  document.getElementById('image1').src= 'images-to-be-used/' +  imagesArray[randomNumber1].filePath;
 }
 function getRandomImage2() {
   randomNumber2 = Math.floor(Math.random() * imagesArray.length);
-  document.getElementById('image2').src= "images-to-be-used/" +  imagesArray[randomNumber2].filePath;
+  document.getElementById('image2').src= 'images-to-be-used/' +  imagesArray[randomNumber2].filePath;
 }
 function getRandomImage3() {
   randomNumber3 = Math.floor(Math.random() * imagesArray.length);
-  document.getElementById('image3').src= "images-to-be-used/" +  imagesArray[randomNumber3].filePath;
+  document.getElementById('image3').src= 'images-to-be-used/' +  imagesArray[randomNumber3].filePath;
 }
 
 var button = document.getElementById('loadButton');
@@ -74,7 +74,7 @@ function handleClickOnFirst() {
   getThreeImages();
 }
 function handleClickOnSecond() {
-  imagesArray[randomNumber2].timesDisplayed += 1;
+  imagesArray[randomNumber2].timesDisplayed += 1;a
   globalClickTracker += 1;
   if (globalClickTracker === 15) {
     button.removeAttribute('hidden');
@@ -91,6 +91,7 @@ function handleClickOnThird() {
   imagesArray[randomNumber3].numClicks += 1;
   getThreeImages();
 }
+
 image1.addEventListener('click', handleClickOnFirst);
 image2.addEventListener('click', handleClickOnSecond);
 image3.addEventListener('click', handleClickOnThird);
@@ -109,16 +110,16 @@ function makeChart() {
     arrayOfArrays[2][i] = imagesArray[i].timesDisplayed;
   }
   var data = {
-    labels: ["bag", "banana", "chair", "cthulhu", "dragon", "pen", "scissors", "shark", "sweep", "unicorn", "usb", "water_can", "wine_glass"],
+    labels: ['bag', 'banana', 'chair', 'cthulhu', 'dragon', 'pen', 'scissors', 'shark', 'sweep', 'unicorn', 'usb', 'water_can', 'wine_glass'],
     datasets: [
       {
-        fillColor: "rgba(220,220,220,0.2)",
-        strokeColor: "rgba(220,220,220,1)",
+        fillColor: 'rgba(220,220,220,0.2)',
+        strokeColor: 'rgba(220,220,220,1)',
         data: arrayOfArrays[1]
       },
       {
-        fillColor: "rgba(151,187,205,0.2)",
-        strokeColor: "rgba(151,187,205,1)",
+        fillColor: 'rgba(151,187,205,0.2)',
+        strokeColor: 'rgba(151,187,205,1)',
         data: arrayOfArrays[2]
       }
     ]
