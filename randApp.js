@@ -74,7 +74,7 @@ function handleClickOnFirst() {
   getThreeImages();
 }
 function handleClickOnSecond() {
-  imagesArray[randomNumber2].timesDisplayed += 1;a
+  imagesArray[randomNumber2].timesDisplayed += 1;
   globalClickTracker += 1;
   if (globalClickTracker === 15) {
     button.removeAttribute('hidden');
@@ -124,6 +124,7 @@ function makeChart() {
       }
     ]
   };
+  var Chart;
   var getChart = document.getElementById('canvas').getContext('2d');
   new Chart(getChart).Bar(data);
   console.log('I am here');
