@@ -124,7 +124,7 @@ function makeChart() {
       }
     ]
   };
-  var Chart;
+  // var Chart;
   var getChart = document.getElementById('canvas').getContext('2d');
   new Chart(getChart).Bar(data);
   console.log('I am here');
