@@ -1,6 +1,7 @@
 'use strict';
 
 var imagesArray = [];
+var arrayOfArrays = [[],[],[]];
 
 function Image(productName, filePath) {
   this.productName = productName;
@@ -32,7 +33,6 @@ var randomNumber2 = 0;
 var randomNumber3 = 0;
 var globalClickTracker = 0;
 
-var arrayOfArrays = [[],[],[]];
 
 function getThreeImages() {
   getRandomImage1();
@@ -124,7 +124,6 @@ function makeChart() {
       }
     ]
   };
-  // var Chart;
   var getChart = document.getElementById('canvas').getContext('2d');
   new Chart(getChart).Bar(data);
   console.log('I am here');
