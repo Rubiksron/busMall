@@ -99,8 +99,7 @@ button.addEventListener('click', handleButton);
 getThreeImages();
 
 function handleButton() {
-  for (var i = 0; i < imagesArray.length; i++) {
-  }
+  canvas.removeAttribute('hidden');
   makeChart();
 }
 function makeChart() {
