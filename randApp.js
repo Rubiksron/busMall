@@ -107,9 +107,11 @@ function makeChart() {
     arrayOfArrays[0][i] = imagesArray[i].productName;
     arrayOfArrays[1][i] = imagesArray[i].numClicks;
     arrayOfArrays[2][i] = imagesArray[i].timesDisplayed;
+    console.log(arrayOfArrays);
   }
+
   var data = {
-    labels: ['bag', 'banana', 'cthulhu', 'chair', 'dragon', 'pen', 'scissors', 'shark', 'sweep', 'unicorn', 'usb', 'water_can', 'wine_glass'],
+    labels: ['bag', 'banana', 'boots', 'chair', 'cthulhu', 'dragon', 'pen', 'scissors', 'shark', 'sweep', 'unicorn', 'usb', 'water_can', 'wine_glass'],
     datasets: [
       {
         fillColor: 'rgba(220,220,220,0.2)',
