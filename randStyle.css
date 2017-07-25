@@ -31,6 +31,12 @@ header {
   width: 300px;
   background-color: beige;
 }
+#canvas {
+  height: 300px;
+  width: 300px;
+  background-color: lavender;
+  border-style: .25em black solid;
+}
 footer {
   font-size: 1.5em;
   background-color: black;
@@ -43,7 +49,4 @@ footer {
   display: flex;
   justify-content: center;
   margin: auto;
-}
-button {
-  
 }
