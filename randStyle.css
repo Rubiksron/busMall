@@ -1,50 +1,63 @@
-
+body {
+  background-color: olive;
+  padding: .5em;
+  padding-top: 3em;
+}
 header {
+  border-radius: .5em;
   font-size: 1.5em;
   background-color: black;
-  color: lavender;
-  padding: 2em;
+  color: white;
+  padding: .5em;
   text-align: center;
-  margin-bottom: 2em;
+  margin-bottom: .5em;
 }
 #image-container {
+  border-radius: .5em;
   display: flex;
   justify-content: space-around;
-  padding: 2em;
+  padding: 1em;
   background-color: grey;
+  border: 1em solid black;
 }
 #image1 {
+  border-radius: 1em;
   height: 300px;
   width: 300px;
   background-color: lightgreen;
   border-style: solid;
 }
 #image2 {
+  border-radius: 1em;
   height: 300px;
   width: 300px;
   background-color: lavender;
   border-style: solid;
 }
 #image3 {
-  border-style: solid;
+  border-radius: 1em;
   height: 300px;
   width: 300px;
   background-color: beige;
+  border-style: solid;
 }
 #canvas {
+  border-radius: 1em;
+
   align-self: auto;
   height: 300px;
   width: 300px;
-  background-color: lavender;
+  background-color: white;
   border: 1em solid black;
 }
 footer {
+  border-radius: .5em;
   font-size: 1.5em;
   background-color: black;
-  color: lavender;
-  padding: 1em;
+  color: white;
+  padding: .5em;
   text-align: center;
-  margin-top: 2em;
+  margin-top: .5em;
 }
 .container {
   display: flex;
@@ -52,7 +65,14 @@ footer {
   margin: auto;
 }
 #loadButton {
+  border-radius: .5em;
+  margin: .5em;
   width: 12em;
   height: 3em;
   font-size: 2em;
+}
+h1 {
+  border-radius: .25em;
+  background-color: grey;
+  padding: .5em;
 }
