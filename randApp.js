@@ -12,6 +12,7 @@ function Image(productName, filePath) {
   this.timesDisplayed = 0;
   imagesArray.push(this);
 }
+
 var bagImage = new Image('bag','bag.jpg');
 var bananaImage = new Image('banana', 'banana.jpg');
 var bootsImage = new Image('boots', 'boots.jpg');
