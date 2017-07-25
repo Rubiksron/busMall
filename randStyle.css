@@ -32,10 +32,11 @@ header {
   background-color: beige;
 }
 #canvas {
+  align-self: auto;
   height: 300px;
   width: 300px;
   background-color: lavender;
-  border-style: .25em black solid;
+  border: 1em solid black;
 }
 footer {
   font-size: 1.5em;
@@ -49,4 +50,9 @@ footer {
   display: flex;
   justify-content: center;
   margin: auto;
+}
+#loadButton {
+  width: 12em;
+  height: 3em;
+  font-size: 2em;
 }

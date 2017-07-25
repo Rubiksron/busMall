@@ -1,7 +1,9 @@
 'use strict';
 
 var imagesArray = [];
-var arrayOfArrays = [[],[],[]];
+var productNames = [];
+var numClicks = [];
+var timesDisplayed = [];
 
 function Image(productName, filePath) {
   this.productName = productName;
@@ -33,7 +35,6 @@ var randomNumber2 = 0;
 var randomNumber3 = 0;
 var globalClickTracker = 0;
 
-
 function getThreeImages() {
   getRandomImage1();
   getRandomImage2();
@@ -45,6 +46,7 @@ function duplicatePreventer() {
     getThreeImages();
   }
 }
+
 function getRandomImage1() {
   randomNumber1 = Math.floor(Math.random() * imagesArray.length);
   document.getElementById('image1').src= 'images-to-be-used/' +  imagesArray[randomNumber1].filePath;
@@ -59,10 +61,6 @@ function getRandomImage3() {
 }
 
 var button = document.getElementById('loadButton');
-
-var image1Clicks = 0;
-var image2Clicks = 0;
-var image3Clicks = 0;
 
 function handleClickOnFirst() {
   imagesArray[randomNumber1].timesDisplayed += 1;
@@ -104,24 +102,22 @@ function handleButton() {
 }
 function makeChart() {
   for (var i = 0; i < imagesArray.length; i++) {
-    arrayOfArrays[0][i] = imagesArray[i].productName;
-    arrayOfArrays[1][i] = imagesArray[i].numClicks;
-    arrayOfArrays[2][i] = imagesArray[i].timesDisplayed;
-    console.log(arrayOfArrays);
+    productNames[i] = imagesArray[i].productName;
+    numClicks[i] = imagesArray[i].numClicks;
+    timesDisplayed[i] = imagesArray[i].timesDisplayed;
   }
-
   var data = {
     labels: ['bag', 'banana', 'boots', 'chair', 'cthulhu', 'dragon', 'pen', 'scissors', 'shark', 'sweep', 'unicorn', 'usb', 'water_can', 'wine_glass'],
     datasets: [
       {
         fillColor: 'rgba(220,220,220,0.2)',
         strokeColor: 'rgba(220,220,220,1)',
-        data: arrayOfArrays[1]
+        data: numClicks
       },
       {
         fillColor: 'rgba(151,187,205,0.2)',
         strokeColor: 'rgba(151,187,205,1)',
-        data: arrayOfArrays[2]
+        data: timesDisplayed
       }
     ]
   };
