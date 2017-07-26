@@ -35,6 +35,7 @@ var randomNumber1 = 0;
 var randomNumber2 = 0;
 var randomNumber3 = 0;
 var globalClickTracker = 0;
+var button = document.getElementById('loadButton');
 
 function getThreeImages() {
   getRandomImage1();
@@ -60,47 +61,57 @@ function getRandomImage3() {
   randomNumber3 = Math.floor(Math.random() * imagesArray.length);
   document.getElementById('image3').src= 'images-to-be-used/' +  imagesArray[randomNumber3].filePath;
 }
-
-var button = document.getElementById('loadButton');
-
+var imageContainer;
 function handleClickOnFirst() {
   imagesArray[randomNumber1].timesDisplayed += 1;
-  globalClickTracker += 1;
-  if (globalClickTracker === 5) {
-    button.removeAttribute('hidden');
-  }
   imagesArray[randomNumber1].numClicks += 1;
+  globalClickTracker += 1;
+  if (globalClickTracker === 15) {
+    canvas.removeAttribute('hidden');
+    image1.setAttribute('hidden', true);
+
+    image2.style.display = 'none';
+    makeChart();
+    image3.style.display = 'none';
+  }
   getThreeImages();
 }
+
 function handleClickOnSecond() {
   imagesArray[randomNumber2].timesDisplayed += 1;
-  globalClickTracker += 1;
-  if (globalClickTracker === 5) {
-    button.removeAttribute('hidden');
-  }
   imagesArray[randomNumber2].numClicks += 1;
+  globalClickTracker += 1;
+  if (globalClickTracker === 15) {
+    canvas.removeAttribute('hidden');
+
+    image1.setAttribute('hidden', true);
+    image2.style.display = 'none';
+    image3.setAttribute('hidden', true);
+    makeChart();
+  }
   getThreeImages();
 }
+
 function handleClickOnThird() {
   imagesArray[randomNumber3].timesDisplayed += 1;
-  globalClickTracker += 1;
-  if (globalClickTracker === 5) {
-    button.removeAttribute('hidden');
-  }
   imagesArray[randomNumber3].numClicks += 1;
+  globalClickTracker += 1;
+  if (globalClickTracker === 15) {
+    canvas.removeAttribute('hidden');
+
+    image1.setAttribute('hidden', true);
+    image2.style.display = 'none';
+    image3.setAttribute('hidden', true);
+    makeChart();
+  }
   getThreeImages();
 }
 
 image1.addEventListener('click', handleClickOnFirst);
 image2.addEventListener('click', handleClickOnSecond);
 image3.addEventListener('click', handleClickOnThird);
-button.addEventListener('click', handleButton);
 getThreeImages();
 
-function handleButton() {
-  canvas.removeAttribute('hidden');
-  makeChart();
-}
 function makeChart() {
   for (var i = 0; i < imagesArray.length; i++) {
     productNames[i] = imagesArray[i].productName;
@@ -111,12 +122,12 @@ function makeChart() {
     labels: ['bag', 'banana', 'boots', 'chair', 'cthulhu', 'dragon', 'pen', 'scissors', 'shark', 'sweep', 'unicorn', 'usb', 'water_can', 'wine_glass'],
     datasets: [
       {
-        fillColor: 'rgba(220,220,220,0.2)',
+        fillColor: 'rgba(220,220,220,0.75)',
         strokeColor: 'rgba(220,220,220,1)',
         data: numClicks
       },
       {
-        fillColor: 'rgba(151,187,205,0.2)',
+        fillColor: 'rgba(151,187,205,0.75)',
         strokeColor: 'rgba(151,187,205,1)',
         data: timesDisplayed
       }
@@ -124,4 +135,5 @@ function makeChart() {
   };
   var getChart = document.getElementById('canvas').getContext('2d');
   new Chart(getChart).Bar(data);
+
 }
