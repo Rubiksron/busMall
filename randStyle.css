@@ -12,7 +12,7 @@ header {
   text-align: center;
   margin-bottom: .5em;
 }
-#image-container {
+#imageContainer {
   border-radius: .5em;
   display: flex;
   justify-content: space-around;
@@ -20,33 +20,17 @@ header {
   background-color: grey;
   border: 1em solid black;
 }
-#image1 {
+#image1, #image2, #image3 {
   border-radius: 1em;
-  height: 300px;
-  width: 300px;
-  background-color: lightgreen;
-  border-style: solid;
-}
-#image2 {
-  border-radius: 1em;
-  height: 300px;
-  width: 300px;
+  height: 20em;
+  width: 20em;
   background-color: lavender;
   border-style: solid;
 }
-#image3 {
-  border-radius: 1em;
-  height: 300px;
-  width: 300px;
-  background-color: beige;
-  border-style: solid;
-}
 #canvas {
+  margin: .5em;
   border-radius: 1em;
-
   align-self: auto;
-  height: 300px;
-  width: 300px;
   background-color: white;
   border: 1em solid black;
 }
@@ -58,18 +42,6 @@ footer {
   padding: .5em;
   text-align: center;
   margin-top: .5em;
-}
-.container {
-  display: flex;
-  justify-content: center;
-  margin: auto;
-}
-#loadButton {
-  border-radius: .5em;
-  margin: .5em;
-  width: 12em;
-  height: 3em;
-  font-size: 2em;
 }
 h1 {
   border-radius: .25em;
