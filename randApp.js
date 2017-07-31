@@ -1,139 +1,119 @@
 'use strict';
 
-var imagesArray = [];
-var productNames = [];
-var numClicks = [];
-var timesDisplayed = [];
+Product.names = ['bag.jpg', 'banana.jpg', 'boots.jpg', 'chair.jpg', 'cthulhu.jpg', 'dragon.jpg', 'pen.jpg', 'scissors.jpg', 'shark.jpg', 'sweep.png', 'unicorn.jpg', 'usb.gif', 'water-can.jpg', 'wine-glass.jpg'];
 
-function Image(productName, filePath) {
-  this.productName = productName;
-  this.filePath = filePath;
-  this.numClicks = 0;
-  this.timesDisplayed = 0;
-  imagesArray.push(this);
+Product.all = [];
+Product.container = document.getElementById('image-container');
+Product.tableDynamicEl = document.getElementById('tableDynamicEl');
+Product.justViewed = [];
+Product.pics = [document.getElementById('left'),
+                document.getElementById('center'),
+                document.getElementById('right')];
+Product.tally = document.getElementById('tally');
+Product.totalClicks = 0;
+
+function Product(name) {
+  this.name = name;
+  this.path = 'images/' + name;
+  this.votes = 0;
+  this.views = 0;
+  Product.all.push(this);
+}
+for(var i = 0; i < Product.names.length; i++) {
+  new Product(Product.names[i]);
 }
 
-var bagImage = new Image('bag','bag.jpg');
-var bananaImage = new Image('banana', 'banana.jpg');
-var bootsImage = new Image('boots', 'boots.jpg');
-var chairImage = new Image('chair', 'chair.jpg');
-var cthulhuImage = new Image('cthulhu', 'cthulhu.jpg');
-var dragonImage = new Image('dragon', 'dragon.jpg');
-var penImage = new Image('pen', 'pen.jpg');
-var scissorsImage = new Image('scissors', 'scissors.jpg');
-var sharkImage = new Image('shark', 'shark.jpg');
-var sweepImage = new Image('sweep', 'sweep.png');
-var unicornImage = new Image('unicorn', 'unicorn.jpg');
-var usbImage = new Image('usb', 'usb.gif');
-var water_canImage = new Image('water_can', 'water-can.jpg');// BEWARE: underscore vs. dash
-var wine_glassImage = new Image('wine_glass', 'wine-glass.jpg');
-
-var image1 = document.getElementById('image1');
-var image2 = document.getElementById('image2');
-var image3 = document.getElementById('image3');
-var randomNumber1 = 0;
-var randomNumber2 = 0;
-var randomNumber3 = 0;
-var globalClickTracker = 0;
-var button = document.getElementById('loadButton');
-
-function getThreeImages() {
-  getRandomImage1();
-  getRandomImage2();
-  getRandomImage3();
-  duplicatePreventer();
+function makeRandomNumber() {
+  return Math.floor(Math.random() * Product.names.length);
 }
-function duplicatePreventer() {
-  while (image1.src === image2.src || image1.src === image3.src || image2.src === image3.src){
-    getThreeImages();
+
+function displayPics() {
+  var numbers = [];
+
+  numbers[0] = makeRandomNumber();
+  numbers[1] = makeRandomNumber();
+
+  while(numbers[0] === numbers[1]){
+    console.log('Duplicate Found');
+    numbers[1] = makeRandomNumber();
   }
+  numbers[2] = makeRandomNumber();
+  while(numbers[2] === numbers[1] || numbers[2] === numbers[0]){
+    console.log('Duplicate Found');
+    numbers[2] = makeRandomNumber();
+
+  }
+  Product.pics[0].src = Product.all[numbers[0]].path;
+  Product.pics[1].src = Product.all[numbers[1]].path;
+  Product.pics[2].src = Product.all[numbers[2]].path;
+  Product.pics[0].id = Product.all[numbers[0]].name;
+  Product.pics[1].id = Product.all[numbers[1]].name;
+  Product.pics[2].id = Product.all[numbers[2]].name;
+  Product.all[numbers[0]].views += 1;
+  Product.all[numbers[1]].views += 1;
+  Product.all[numbers[2]].views += 1;
+  Product.justViewed[0] = numbers[0];
+  Product.justViewed[1] = numbers[1];
+  Product.justViewed[2] = numbers[2];
+
 }
 
-function getRandomImage1() {
-  randomNumber1 = Math.floor(Math.random() * imagesArray.length);
-  document.getElementById('image1').src= 'images-to-be-used/' +  imagesArray[randomNumber1].filePath;
-}
-function getRandomImage2() {
-  randomNumber2 = Math.floor(Math.random() * imagesArray.length);
-  document.getElementById('image2').src= 'images-to-be-used/' +  imagesArray[randomNumber2].filePath;
-}
-function getRandomImage3() {
-  randomNumber3 = Math.floor(Math.random() * imagesArray.length);
-  document.getElementById('image3').src= 'images-to-be-used/' +  imagesArray[randomNumber3].filePath;
-}
-var imageContainer;
-function handleClickOnFirst() {
-  imagesArray[randomNumber1].timesDisplayed += 1;
-  imagesArray[randomNumber1].numClicks += 1;
-  globalClickTracker += 1;
-  if (globalClickTracker === 15) {
+function handleClick(event) {
+  console.log(Product.totalClicks, 'total clicks');
+  if(Product.totalClicks > 4) {
+    Product.container.removeEventListener('click', handleClick);
     canvas.removeAttribute('hidden');
-    image1.setAttribute('hidden', true);
-
-    image2.style.display = 'none';
-    makeChart();
-    image3.style.display = 'none';
+    showTally();
+    // makeChart();
   }
-  getThreeImages();
+  if (event.target.id === 'image-container') {
+    return alert('Click on an image, or else or else/or!');
+  }
+  Product.totalClicks += 1;
+  for(var i = 0; i < Product.names.length; i++){
+    if(event.target.id === Product.all[i].name) {
+      Product.all[i].votes += 1;
+      console.log(event.target.id + ' has ' + Product.all[i].votes + ' votes in ' + Product.all[i].views + ' views');
+    }
+  }
+  displayPics();
 }
 
-function handleClickOnSecond() {
-  imagesArray[randomNumber2].timesDisplayed += 1;
-  imagesArray[randomNumber2].numClicks += 1;
-  globalClickTracker += 1;
-  if (globalClickTracker === 15) {
-    canvas.removeAttribute('hidden');
-
-    image1.setAttribute('hidden', true);
-    image2.style.display = 'none';
-    image3.setAttribute('hidden', true);
-    makeChart();
+function showTally() {
+  for(var i = 0; i < Product.all.length; i++) {
+    var liEl = document.createElement('li');
+    liEl.textContent = Product.all[i].name + ' has ' + Product.all[i].votes + ' votes in ' + Product.all[i].views + ' views';
+    Product.tally.appendChild(liEl);
   }
-  getThreeImages();
 }
 
-function handleClickOnThird() {
-  imagesArray[randomNumber3].timesDisplayed += 1;
-  imagesArray[randomNumber3].numClicks += 1;
-  globalClickTracker += 1;
-  if (globalClickTracker === 15) {
-    canvas.removeAttribute('hidden');
+// function makeChart() {
+//   for (var i = 0; i < Product.all.length; i++) {
+//     Product.name[i] = Product.all[i].name;
+//     Product.votes[i] = Image.all[i].votes;
+//     Product.views[i] = Image.all[i].views;
+//     console.log('**********Product.votes[i]:**********  ', Product.votes[i]);
+//     console.log('++++++++Product.views[i]+++++++++++', Product.views[i]);
+//   }
+//   var data = {
+//     labels: ['bag', 'banana', 'boots', 'chair', 'cthulhu', 'dragon', 'pen', 'scissors', 'shark', 'sweep', 'unicorn', 'usb', 'water_can', 'wine_glass'],
+//     datasets: [
+//       {
+//         fillColor: 'rgba(220,220,220,0.75)',
+//         strokeColor: 'rgba(220,220,220,1)',
+//         data: votes
+//       },
+//       {
+//         fillColor: 'rgba(151,187,205,0.75)',
+//         strokeColor: 'rgba(151,187,205,1)',
+//         data: views
+//       }
+//     ]
+//   };
+//   var getChart = document.getElementById('canvas').getContext('2d');
+//   new Chart(getChart).Bar(data);
+// }
 
-    image1.setAttribute('hidden', true);
-    image2.style.display = 'none';
-    image3.setAttribute('hidden', true);
-    makeChart();
-  }
-  getThreeImages();
-}
 
-image1.addEventListener('click', handleClickOnFirst);
-image2.addEventListener('click', handleClickOnSecond);
-image3.addEventListener('click', handleClickOnThird);
-getThreeImages();
-
-function makeChart() {
-  for (var i = 0; i < imagesArray.length; i++) {
-    productNames[i] = imagesArray[i].productName;
-    numClicks[i] = imagesArray[i].numClicks;
-    timesDisplayed[i] = imagesArray[i].timesDisplayed;
-  }
-  var data = {
-    labels: ['bag', 'banana', 'boots', 'chair', 'cthulhu', 'dragon', 'pen', 'scissors', 'shark', 'sweep', 'unicorn', 'usb', 'water_can', 'wine_glass'],
-    datasets: [
-      {
-        fillColor: 'rgba(220,220,220,0.75)',
-        strokeColor: 'rgba(220,220,220,1)',
-        data: numClicks
-      },
-      {
-        fillColor: 'rgba(151,187,205,0.75)',
-        strokeColor: 'rgba(151,187,205,1)',
-        data: timesDisplayed
-      }
-    ]
-  };
-  var getChart = document.getElementById('canvas').getContext('2d');
-  new Chart(getChart).Bar(data);
-
-}
+Product.container.addEventListener('click', handleClick);
+displayPics();

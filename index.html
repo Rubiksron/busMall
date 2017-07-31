@@ -1,31 +1,27 @@
+
 <!DOCTYPE html>
 <html>
-<head>
-  <script src="chart.js"></script>
-  <link rel="stylesheet" href="randStyle.css" charset="utf-8">
-  <meta charset="utf-8">
-  <title>Image randomizing mechanism</title>
-</head>
-<header>
-  <h1>Please click on the product that interests you most. After 15 selections you can view the results.</h1>
-</header>
-<body>
-  <div id="imageContainer">
-    <div id="box1">
-      <img id="image1"/>
-    </div>
-    <div id="box2">
-      <img id="image2"/>
-    </div>
-    <div id="box3">
-      <img id="image3"/>
-    </div>
-  </div>
-  <section id="tableData"></section>
+  <head>
+    <script src="chart.js"></script>
+    <meta charset="utf-8">
+    <title>BusMall</title>
+    <link rel="stylesheet" href="randStyle.css"/>
+  </head>
+  <header>
+    <h1>Please click on the product that interests you most. After 15 selections you can view the results.</h1>
+  </header>
+  <body>
+    <section id="image-container">
+      <img id="left" src="">
+      <img id="center" src="">
+      <img id="right" src="">
+  </section>
+  <ul id="tally"></ul>
+  <table id="tableDynamic">Here is a table...</table>
   <canvas id="canvas" width="1200" height="400" hidden="true"></canvas>
-  <script src="randApp.js"></script>
-</body>
-<footer>
-  <h1>--Thank You for Participating--</h1>
-</footer>
+      <script src="randApp.js"></script>
+  </body>
+  <footer>
+    <h1>--Thank You for Participating--</h1>
+  </footer>
 </html>
