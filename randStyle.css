@@ -1,3 +1,7 @@
+
+table {
+  border: dotted 1em black;
+}
 body {
   background-color: olive;
   padding: .5em;
@@ -12,7 +16,7 @@ header {
   text-align: center;
   margin-bottom: .5em;
 }
-#imageContainer {
+#image-container {
   border-radius: .5em;
   display: flex;
   justify-content: space-around;
@@ -20,7 +24,7 @@ header {
   background-color: grey;
   border: 1em solid black;
 }
-#image1, #image2, #image3 {
+img {
   border-radius: 1em;
   height: 20em;
   width: 20em;
