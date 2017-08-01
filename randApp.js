@@ -3,9 +3,9 @@
 Product.names = ['bag.jpg', 'banana.jpg', 'boots.jpg', 'chair.jpg', 'cthulhu.jpg', 'dragon.jpg', 'pen.jpg', 'scissors.jpg', 'shark.jpg', 'sweep.png', 'unicorn.jpg', 'usb.gif', 'water-can.jpg', 'wine-glass.jpg'];
 
 Product.all = [];
+Product.justViewed = [];
 Product.container = document.getElementById('image-container');
 Product.tableDynamicEl = document.getElementById('tableDynamic');
-Product.justViewed = [];
 Product.pics = [document.getElementById('left'),
                 document.getElementById('center'),
                 document.getElementById('right')];
@@ -28,45 +28,40 @@ function makeRandomNumber() {
 }
 
 function displayPics() {
-  var numbers = [];
-//IMPLEMENT indexOf()
-  numbers[0] = makeRandomNumber();
-  numbers[1] = makeRandomNumber();
+  var randomImages = [];
 
-  while(numbers[0] === numbers[1]){
+  randomImages[0] = makeRandomNumber();
+  randomImages[1] = makeRandomNumber();
+
+  while(randomImages[0] === randomImages[1]){
     console.log('Duplicate Found');
-    numbers[1] = makeRandomNumber();
+    randomImages[1] = makeRandomNumber();
   }
-  numbers[2] = makeRandomNumber();
-  while(numbers[2] === numbers[1] || numbers[2] === numbers[0]){
+  randomImages[2] = makeRandomNumber();
+  while(randomImages[2] === randomImages[1] || randomImages[2] === randomImages[0]){
     console.log('Duplicate Found');
-    numbers[2] = makeRandomNumber();
+    randomImages[2] = makeRandomNumber();
 
   }
-  Product.pics[0].src = Product.all[numbers[0]].path;
-  Product.pics[1].src = Product.all[numbers[1]].path;
-  Product.pics[2].src = Product.all[numbers[2]].path;
-  Product.pics[0].id = Product.all[numbers[0]].name;
-  Product.pics[1].id = Product.all[numbers[1]].name;
-  Product.pics[2].id = Product.all[numbers[2]].name;
-  Product.all[numbers[0]].views += 1;
-  Product.all[numbers[1]].views += 1;
-  Product.all[numbers[2]].views += 1;
-  Product.justViewed[0] = numbers[0];
-  Product.justViewed[1] = numbers[1];
-  Product.justViewed[2] = numbers[2];
 
+  for( var i = 0; i < 3; i++ ) {
+    Product.pics[i].src = Product.all[randomImages[i]].path;
+    Product.pics[i].id = Product.all[randomImages[i]].name;
+    Product.all[randomImages[i]].views += 1;
+    Product.justViewed[i] = randomImages[i];
+
+  }
 }
 
 function handleClick(event) {
   console.log(Product.totalClicks, 'total clicks');
-  if(Product.totalClicks > 4) {
+  if(Product.totalClicks > 2) {
     Product.container.removeEventListener('click', handleClick);
     localStorage.setItem('totalClicks', JSON.stringify(Product.all));
     console.log('data transfering to local storage');
-    // canvas.removeAttribute('hidden');
-    showTally();
-    // makeChart();
+    canvas.removeAttribute('hidden');
+    makeTable();
+    makeChart();
   }
   if (event.target.id === 'image-container') {
     return alert('Click on an image!');
@@ -81,40 +76,46 @@ function handleClick(event) {
   displayPics();
 }
 //below will make a table
-function showTally() {
+function makeTable() {
   for(var i = 0; i < Product.all.length; i++) {
     var thEl = document.createElement('th');
     thEl.textContent = Product.all[i].name + ' has ' + Product.all[i].votes + ' votes in ' + Product.all[i].views + ' views';
     Product.tableDynamicEl.appendChild(thEl);
   }
 }
+var namesData = [];
+var votesData = [];
+var viewsData = [];
 
-// function makeChart() {
-//   for (var i = 0; i < Product.all.length; i++) {
-//     Product.name[i] = Product.all[i].name;
-//     Product.votes[i] = Image.all[i].votes;
-//     Product.views[i] = Image.all[i].views;
-//     console.log('**********Product.votes[i]:**********  ', Product.votes[i]);
-//     console.log('++++++++Product.views[i]+++++++++++', Product.views[i]);
-//   }
-//   var data = {
-//     labels: ['bag', 'banana', 'boots', 'chair', 'cthulhu', 'dragon', 'pen', 'scissors', 'shark', 'sweep', 'unicorn', 'usb', 'water_can', 'wine_glass'],
-//     datasets: [
-//       {
-//         fillColor: 'rgba(220,220,220,0.75)',
-//         strokeColor: 'rgba(220,220,220,1)',
-//         data: votes
-//       },
-//       {
-//         fillColor: 'rgba(151,187,205,0.75)',
-//         strokeColor: 'rgba(151,187,205,1)',
-//         data: views
-//       }
-//     ]
-//   };
-//   var getChart = document.getElementById('canvas').getContext('2d');
-//   new Chart(getChart).Bar(data);
-// }
+function makeChart() {
+  for (var i = 0; i < Product.all.length; i++) {
+    namesData.push(Product.all[i].name);
+    votesData.push(Product.all[i].votes);
+    viewsData.push(Product.all[i].views);
+    console.log('namesData:  ', namesData);
+    console.log('viewsData:  ', viewsData);
+    console.log('votesData:  ', votesData);
+  }
+
+  var getChart = document.getElementById('canvas').getContext('2d');
+  new Chart(getChart).Bar(data);
+}
+
+var data = {
+  labels: ['bag', 'banana', 'boots', 'chair', 'cthulhu', 'dragon', 'pen', 'scissors', 'shark', 'sweep', 'unicorn', 'usb', 'water-can', 'wine-glass'],
+  datasets: [
+    {
+      fillColor: 'rgba(220,220,220,0.75)',
+      strokeColor: 'rgba(220,220,220,1)',
+      data: viewsData
+    },
+    {
+      fillColor: 'rgba(151,187,205,0.75)',
+      strokeColor: 'rgba(151,187,205,1)',
+      data: votesData
+    }
+  ]
+};
 
 if(localStorage.totalClicks) {
   Product.all = JSON.parse(localStorage.totalClicks);
