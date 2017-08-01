@@ -4,7 +4,7 @@ Product.names = ['bag.jpg', 'banana.jpg', 'boots.jpg', 'chair.jpg', 'cthulhu.jpg
 
 Product.all = [];
 Product.container = document.getElementById('image-container');
-Product.tableDynamicEl = document.getElementById('tableDynamicEl');
+Product.tableDynamicEl = document.getElementById('tableDynamic');
 Product.justViewed = [];
 Product.pics = [document.getElementById('left'),
                 document.getElementById('center'),
@@ -29,7 +29,7 @@ function makeRandomNumber() {
 
 function displayPics() {
   var numbers = [];
-
+//IMPLEMENT indexOf()
   numbers[0] = makeRandomNumber();
   numbers[1] = makeRandomNumber();
 
@@ -62,12 +62,14 @@ function handleClick(event) {
   console.log(Product.totalClicks, 'total clicks');
   if(Product.totalClicks > 4) {
     Product.container.removeEventListener('click', handleClick);
-    canvas.removeAttribute('hidden');
+    localStorage.setItem('totalClicks', JSON.stringify(Product.all));
+    console.log('data transfering to local storage');
+    // canvas.removeAttribute('hidden');
     showTally();
     // makeChart();
   }
   if (event.target.id === 'image-container') {
-    return alert('Click on an image, or else or else/or!');
+    return alert('Click on an image!');
   }
   Product.totalClicks += 1;
   for(var i = 0; i < Product.names.length; i++){
@@ -78,12 +80,12 @@ function handleClick(event) {
   }
   displayPics();
 }
-
+//below will make a table
 function showTally() {
   for(var i = 0; i < Product.all.length; i++) {
-    var liEl = document.createElement('li');
-    liEl.textContent = Product.all[i].name + ' has ' + Product.all[i].votes + ' votes in ' + Product.all[i].views + ' views';
-    Product.tally.appendChild(liEl);
+    var thEl = document.createElement('th');
+    thEl.textContent = Product.all[i].name + ' has ' + Product.all[i].votes + ' votes in ' + Product.all[i].views + ' views';
+    Product.tableDynamicEl.appendChild(thEl);
   }
 }
 
@@ -114,6 +116,10 @@ function showTally() {
 //   new Chart(getChart).Bar(data);
 // }
 
+if(localStorage.totalClicks) {
+  Product.all = JSON.parse(localStorage.totalClicks);
+  console.log('data received from local storage.');
+}
 
 Product.container.addEventListener('click', handleClick);
 displayPics();
