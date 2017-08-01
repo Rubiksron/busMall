@@ -1,6 +1,6 @@
 
 table {
-  border: dotted 1em black;
+  border: dashed .25em black;
 }
 body {
   background-color: olive;
