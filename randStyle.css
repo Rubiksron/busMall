@@ -1,6 +1,6 @@
 
 table {
-  border: dashed .25em black;
+  border: solid .25em black;
 }
 body {
   background-color: olive;
@@ -21,7 +21,7 @@ header {
   display: flex;
   justify-content: space-around;
   padding: 1em;
-  background-color: grey;
+  background-color: green;
   border: 1em solid black;
 }
 img {
