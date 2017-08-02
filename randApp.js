@@ -4,7 +4,7 @@ Product.names = ['bag.jpg', 'banana.jpg', 'boots.jpg', 'chair.jpg', 'cthulhu.jpg
 
 Product.all = [];
 Product.justViewed = [];
-Product.buttonEl = document.getElementById('clear-local-storage');
+Product.btnClearLS = document.getElementById('clear-local-storage');
 Product.container = document.getElementById('image-container');
 Product.tableDynamicEl = document.getElementById('table-dynamic');
 Product.pics = [document.getElementById('left'),
@@ -60,7 +60,10 @@ Product.prototype.handleClick = function(event) {
     Product.container.setAttribute('hidden', true);
     localStorage.setItem('totalClicks', JSON.stringify(Product.all));
     console.log('data transfering to local storage');
-    Product.buttonEl.removeAttribute('hidden');
+    for( var i = 0; i < 3; i++ ){
+      Product.pics[i].setAttribute('hidden', true);
+    }
+    Product.btnClearLS.removeAttribute('hidden');
     canvas.removeAttribute('hidden');
     Product.prototype.makeTable();
     Product.prototype.makeChart();
@@ -84,11 +87,16 @@ Product.prototype.handleLocalStorage = function() {
 }
 
 Product.prototype.makeTable = function() {
+  var thEl = document.createElement('th');
+  thEl.textContent = 'Products';
+  Product.tableDynamicEl.appendChild(thEl);
+
   for(var i = 0; i < Product.all.length; i++) {
     var thEl = document.createElement('th');
     thEl.textContent = Product.all[i].name + ' has ' + Product.all[i].votes + ' votes in ' + Product.all[i].views + ' views';
     Product.tableDynamicEl.appendChild(thEl);
   }
+
 };
 
 Product.namesData = [];
@@ -128,5 +136,5 @@ if(localStorage.totalClicks) {
 }
 
 Product.container.addEventListener('click', Product.prototype.handleClick);
-Product.buttonEl.addEventListener('click', Product.prototype.handleLocalStorage)
+Product.btnClearLS.addEventListener('click', Product.prototype.handleLocalStorage)
 Product.prototype.displayPics();
