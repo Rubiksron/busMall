@@ -21,7 +21,7 @@ header {
   display: flex;
   justify-content: space-around;
   padding: 1em;
-  background-color: green;
+  background-color: grey;
   border: 1em solid black;
 }
 img {
