@@ -4,7 +4,12 @@ Product.names = ['bag.jpg', 'banana.jpg', 'boots.jpg', 'chair.jpg', 'cthulhu.jpg
 
 Product.all = [];
 Product.justViewed = [];
+Product.namesData = [];
+Product.votesData = [];
+Product.viewsData = [];
 Product.btnClearLS = document.getElementById('clear-local-storage');
+Product.btnShowChart = document.getElementById('show-chart');
+Product.btnShowTable = document.getElementById('show-table');
 Product.container = document.getElementById('image-container');
 Product.tableDynamicEl = document.getElementById('table-dynamic');
 Product.pics = [document.getElementById('left'),
@@ -60,13 +65,12 @@ Product.prototype.handleClick = function(event) {
     Product.container.setAttribute('hidden', true);
     localStorage.setItem('totalClicks', JSON.stringify(Product.all));
     console.log('data transfering to local storage');
-    for( var i = 0; i < 3; i++ ){
+    for( var i = 0; i < 3; i++ ) {
       Product.pics[i].setAttribute('hidden', true);
     }
     Product.btnClearLS.removeAttribute('hidden');
-    canvas.removeAttribute('hidden');
-    Product.prototype.makeTable();
-    Product.prototype.makeChart();
+    Product.btnShowChart.removeAttribute('hidden');
+    Product.btnShowTable.removeAttribute('hidden');
   }
   if (event.target.id === 'image-container') {
     return alert('Click on an image!');
@@ -84,32 +88,82 @@ Product.prototype.handleClick = function(event) {
 Product.prototype.handleLocalStorage = function() {
   localStorage.clear();
   console.log('local storage has been cleared.');
-}
-
-Product.prototype.makeTable = function() {
-  var thEl = document.createElement('th');
-  thEl.textContent = 'Products';
-  Product.tableDynamicEl.appendChild(thEl);
-
-  for(var i = 0; i < Product.all.length; i++) {
-    var thEl = document.createElement('th');
-    thEl.textContent = Product.all[i].name + ' has ' + Product.all[i].votes + ' votes in ' + Product.all[i].views + ' views';
-    Product.tableDynamicEl.appendChild(thEl);
-  }
-
 };
 
-Product.namesData = [];
-Product.votesData = [];
-Product.viewsData = [];
+Product.prototype.handleShowChart = function() {
+  canvas.removeAttribute('hidden');
+  Product.prototype.makeChart();
+  Product.tableDynamicEl.setAttribute('hidden', true);
+  console.log('chart populated.');
+};
 
-Product.prototype.makeChart = function() {
+Product.prototype.handleShowTable = function() {
+  Product.tableDynamicEl.removeAttribute('hidden');
+  Product.prototype.showTable();
+  canvas.setAttribute('hidden', true);
+  console.log('table populated');
+};
+
+Product.prototype.showTable = function() {
+  Product.tableDynamicEl.innerHTML = '';
+  var trEl = document.createElement('tr');
+  var thEl = document.createElement('th');
+  thEl.textContent = 'Products';
+  trEl.appendChild(thEl);
+
+  for(var i = 0; i < Product.all.length; i++) {
+    var tdEl = document.createElement('td');
+    tdEl.textContent = Product.all[i].name ;
+    trEl.appendChild(tdEl);
+  }
+  Product.tableDynamicEl.appendChild(trEl);
+
+  Product.prototype.showTableRowVotes();
+  Product.prototype.showTableRowViews();
+};
+
+Product.prototype.showTableRowVotes = function() {
+  Product.prototype.collectData();
+  var trEl = document.createElement('tr');
+  var tdEl = document.createElement('td');
+  tdEl.textContent = 'Votes';
+  trEl.appendChild(tdEl);
+
+  for( var i = 0; i < Product.all.length; i++ ) {
+    var tdEl = document.createElement('td');
+    tdEl.textContent = Product.votesData[i];
+    trEl.appendChild(tdEl);
+  }
+  Product.tableDynamicEl.appendChild(trEl);
+};
+
+Product.prototype.showTableRowViews = function() {
+  Product.prototype.collectData();
+  var trEl = document.createElement('tr');
+  var tdEl = document.createElement('td');
+  tdEl.textContent = 'Views';
+  trEl.appendChild(tdEl);
+
+  for( var i = 0; i < Product.all.length; i++ ) {
+    var tdEl = document.createElement('td');
+    tdEl.textContent = Product.viewsData[i];
+    trEl.appendChild(tdEl);
+  }
+  Product.tableDynamicEl.appendChild(trEl);
+};
+
+
+
+Product.prototype.collectData = function() {
   for (var i = 0; i < Product.all.length; i++) {
     Product.namesData.push(Product.all[i].name);
     Product.votesData.push(Product.all[i].votes);
     Product.viewsData.push(Product.all[i].views);
   }
+};
 
+Product.prototype.makeChart = function() {
+  Product.prototype.collectData();
   Product.getChart = document.getElementById('canvas').getContext('2d');
   new Chart(Product.getChart).Bar(Product.data);
 };
@@ -136,5 +190,7 @@ if(localStorage.totalClicks) {
 }
 
 Product.container.addEventListener('click', Product.prototype.handleClick);
-Product.btnClearLS.addEventListener('click', Product.prototype.handleLocalStorage)
+Product.btnClearLS.addEventListener('click', Product.prototype.handleLocalStorage);
+Product.btnShowTable.addEventListener('click', Product.prototype.handleShowTable);
+Product.btnShowChart.addEventListener('click', Product.prototype.handleShowChart);
 Product.prototype.displayPics();
