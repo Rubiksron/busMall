@@ -7,10 +7,10 @@ Product.justViewed = [];
 Product.namesData = [];
 Product.votesData = [];
 Product.viewsData = [];
+Product.container = document.getElementById('image-container');
 Product.btnClearLS = document.getElementById('clear-local-storage');
 Product.btnShowChart = document.getElementById('show-chart');
 Product.btnShowTable = document.getElementById('show-table');
-Product.container = document.getElementById('image-container');
 Product.tableDynamicEl = document.getElementById('table-dynamic');
 Product.pics = [document.getElementById('left'),
                 document.getElementById('center'),
@@ -50,6 +50,7 @@ Product.prototype.displayPics = function() {
   }
 
   for( var i = 0; i < 3; i++ ) {
+    Product.pics[i].src = Product.all[randomImages[i]].path;
     Product.pics[i].src = Product.all[randomImages[i]].path;
     Product.pics[i].id = Product.all[randomImages[i]].name;
     Product.all[randomImages[i]].views += 1;
