@@ -11,6 +11,7 @@ Product.container = document.getElementById('image-container');
 Product.btnClearLS = document.getElementById('clear-local-storage');
 Product.btnShowChart = document.getElementById('show-chart');
 Product.btnShowTable = document.getElementById('show-table');
+Product.btnReset = document.getElementById('reset');
 Product.tableDynamicEl = document.getElementById('table-dynamic');
 Product.pics = [document.getElementById('left'),
                 document.getElementById('center'),
@@ -72,6 +73,8 @@ Product.prototype.handleClick = function(event) {
     Product.btnClearLS.removeAttribute('hidden');
     Product.btnShowChart.removeAttribute('hidden');
     Product.btnShowTable.removeAttribute('hidden');
+    Product.btnReset.removeAttribute('hidden');
+
   }
   if (event.target.id === 'image-container') {
     return alert('Click on an image!');
@@ -86,6 +89,9 @@ Product.prototype.handleClick = function(event) {
   Product.prototype.displayPics();
 };
 
+Product.prototype.handleReset = function() {
+  console.log('reset window');
+  location.reload();};
 Product.prototype.handleLocalStorage = function() {
   localStorage.clear();
   console.log('local storage has been cleared.');
@@ -153,8 +159,6 @@ Product.prototype.showTableRowViews = function() {
   Product.tableDynamicEl.appendChild(trEl);
 };
 
-
-
 Product.prototype.collectData = function() {
   for (var i = 0; i < Product.all.length; i++) {
     Product.namesData.push(Product.all[i].name);
@@ -190,6 +194,7 @@ if(localStorage.totalClicks) {
   console.log('data received from local storage.');
 }
 
+Product.btnReset.addEventListener('click', Product.prototype.handleReset)
 Product.container.addEventListener('click', Product.prototype.handleClick);
 Product.btnClearLS.addEventListener('click', Product.prototype.handleLocalStorage);
 Product.btnShowTable.addEventListener('click', Product.prototype.handleShowTable);
