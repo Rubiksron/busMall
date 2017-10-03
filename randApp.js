@@ -91,7 +91,9 @@ Product.prototype.handleClick = function(event) {
 
 Product.prototype.handleReset = function() {
   console.log('reset window');
-  location.reload();};
+  location.reload();
+};
+
 Product.prototype.handleLocalStorage = function() {
   localStorage.clear();
   console.log('local storage has been cleared.');
