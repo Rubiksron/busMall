@@ -62,7 +62,7 @@ Product.prototype.displayPics = function() {
 
 Product.prototype.handleClick = function(event) {
   console.log(Product.totalClicks, 'total clicks');
-  if(Product.totalClicks > 2) {
+  if(Product.totalClicks >= 14) {
     Product.container.removeEventListener('click', Product.prototype.handleClick);
     Product.container.setAttribute('hidden', true);
     localStorage.setItem('totalClicks', JSON.stringify(Product.all));
@@ -90,27 +90,23 @@ Product.prototype.handleClick = function(event) {
 };
 
 Product.prototype.handleReset = function() {
-  console.log('reset window');
   location.reload();
 };
 
 Product.prototype.handleLocalStorage = function() {
   localStorage.clear();
-  console.log('local storage has been cleared.');
 };
 
 Product.prototype.handleShowChart = function() {
   canvas.removeAttribute('hidden');
   Product.prototype.makeChart();
   Product.tableDynamicEl.setAttribute('hidden', true);
-  console.log('chart populated.');
 };
 
 Product.prototype.handleShowTable = function() {
   Product.tableDynamicEl.removeAttribute('hidden');
   Product.prototype.showTable();
   canvas.setAttribute('hidden', true);
-  console.log('table populated');
 };
 
 Product.prototype.showTable = function() {
