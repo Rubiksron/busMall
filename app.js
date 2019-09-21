@@ -4,14 +4,8 @@ Product.names = ['bag.jpg', 'banana.jpg', 'boots.jpg', 'chair.jpg', 'cthulhu.jpg
 
 Product.all = [];
 Product.justViewed = [];
-Product.namesData = [];
-Product.votesData = [];
-Product.viewsData = [];
-Product.container = document.getElementById('image-container');
 Product.btnClearLS = document.getElementById('clear-local-storage');
-Product.btnShowChart = document.getElementById('show-chart');
-Product.btnShowTable = document.getElementById('show-table');
-Product.btnReset = document.getElementById('reset');
+Product.container = document.getElementById('image-container');
 Product.tableDynamicEl = document.getElementById('table-dynamic');
 Product.pics = [document.getElementById('left'),
                 document.getElementById('center'),
@@ -49,32 +43,29 @@ Product.prototype.displayPics = function() {
     console.log('Duplicate Found');
     randomImages[2] = Product.prototype.makeRandomNumber();
   }
-
+  
   for( var i = 0; i < 3; i++ ) {
-    Product.pics[i].src = Product.all[randomImages[i]].path;
     Product.pics[i].src = Product.all[randomImages[i]].path;
     Product.pics[i].id = Product.all[randomImages[i]].name;
     Product.all[randomImages[i]].views += 1;
     Product.justViewed[i] = randomImages[i];
-
   }
 };
 
 Product.prototype.handleClick = function(event) {
   console.log(Product.totalClicks, 'total clicks');
-  if(Product.totalClicks >= 14) {
+  if(Product.totalClicks > 2) {
     Product.container.removeEventListener('click', Product.prototype.handleClick);
     Product.container.setAttribute('hidden', true);
     localStorage.setItem('totalClicks', JSON.stringify(Product.all));
     console.log('data transfering to local storage');
-    for( var i = 0; i < 3; i++ ) {
+    for( var i = 0; i < 3; i++ ){
       Product.pics[i].setAttribute('hidden', true);
     }
     Product.btnClearLS.removeAttribute('hidden');
-    Product.btnShowChart.removeAttribute('hidden');
-    Product.btnShowTable.removeAttribute('hidden');
-    Product.btnReset.removeAttribute('hidden');
-
+    canvas.removeAttribute('hidden');
+    Product.prototype.makeTable();
+    Product.prototype.makeChart();
   }
   if (event.target.id === 'image-container') {
     return alert('Click on an image!');
@@ -89,85 +80,37 @@ Product.prototype.handleClick = function(event) {
   Product.prototype.displayPics();
 };
 
-Product.prototype.handleReset = function() {
-  location.reload();
-};
-
 Product.prototype.handleLocalStorage = function() {
   localStorage.clear();
+  console.log('local storage has been cleared.');
 };
 
-Product.prototype.handleShowChart = function() {
-  canvas.removeAttribute('hidden');
-  Product.prototype.makeChart();
-  Product.tableDynamicEl.setAttribute('hidden', true);
-};
-
-Product.prototype.handleShowTable = function() {
-  Product.tableDynamicEl.removeAttribute('hidden');
-  Product.prototype.showTable();
-  canvas.setAttribute('hidden', true);
-};
-
-Product.prototype.showTable = function() {
-  Product.tableDynamicEl.innerHTML = '';
-  var trEl = document.createElement('tr');
+Product.prototype.makeTable = function() {
   var thEl = document.createElement('th');
   thEl.textContent = 'Products';
-  trEl.appendChild(thEl);
+  Product.tableDynamicEl.appendChild(thEl);
 
   for(var i = 0; i < Product.all.length; i++) {
-    var tdEl = document.createElement('td');
-    tdEl.textContent = Product.all[i].name ;
-    trEl.appendChild(tdEl);
+    var thEl = document.createElement('th');
+    thEl.textContent = Product.all[i].name + ' has ' + Product.all[i].votes + ' votes in ' + Product.all[i].views + ' views';
+    Product.tableDynamicEl.appendChild(thEl);
   }
-  Product.tableDynamicEl.appendChild(trEl);
 
-  Product.prototype.showTableRowVotes();
-  Product.prototype.showTableRowViews();
 };
 
-Product.prototype.showTableRowVotes = function() {
-  Product.prototype.collectData();
-  var trEl = document.createElement('tr');
-  var tdEl = document.createElement('td');
-  tdEl.textContent = 'Votes';
-  trEl.appendChild(tdEl);
+Product.namesData = [];
+Product.votesData = [];
+Product.viewsData = [];
 
-  for( var i = 0; i < Product.all.length; i++ ) {
-    var tdEl = document.createElement('td');
-    tdEl.textContent = Product.votesData[i];
-    trEl.appendChild(tdEl);
-  }
-  Product.tableDynamicEl.appendChild(trEl);
-};
-
-Product.prototype.showTableRowViews = function() {
-  Product.prototype.collectData();
-  var trEl = document.createElement('tr');
-  var tdEl = document.createElement('td');
-  tdEl.textContent = 'Views';
-  trEl.appendChild(tdEl);
-
-  for( var i = 0; i < Product.all.length; i++ ) {
-    var tdEl = document.createElement('td');
-    tdEl.textContent = Product.viewsData[i];
-    trEl.appendChild(tdEl);
-  }
-  Product.tableDynamicEl.appendChild(trEl);
-};
-
-Product.prototype.collectData = function() {
+Product.prototype.makeChart = function() {
   for (var i = 0; i < Product.all.length; i++) {
     Product.namesData.push(Product.all[i].name);
     Product.votesData.push(Product.all[i].votes);
     Product.viewsData.push(Product.all[i].views);
   }
-};
 
-Product.prototype.makeChart = function() {
-  Product.prototype.collectData();
   Product.getChart = document.getElementById('canvas').getContext('2d');
+  // eslint-disable-next-line no-undef
   new Chart(Product.getChart).Bar(Product.data);
 };
 
@@ -192,9 +135,6 @@ if(localStorage.totalClicks) {
   console.log('data received from local storage.');
 }
 
-Product.btnReset.addEventListener('click', Product.prototype.handleReset)
 Product.container.addEventListener('click', Product.prototype.handleClick);
-Product.btnClearLS.addEventListener('click', Product.prototype.handleLocalStorage);
-Product.btnShowTable.addEventListener('click', Product.prototype.handleShowTable);
-Product.btnShowChart.addEventListener('click', Product.prototype.handleShowChart);
+Product.btnClearLS.addEventListener('click', Product.prototype.handleLocalStorage)
 Product.prototype.displayPics();
