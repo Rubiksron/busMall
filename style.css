@@ -3,7 +3,7 @@ table {
   width: 100%;
 }
 td, th {
-  border: solid 1px black;
+  border: solid .2em black;
   background-color: white;
   text-align: center;
 }
@@ -16,7 +16,8 @@ button {
   border-radius: .5em;
 }
 body {
-  background-color: olive;
+  background-image: url("./images/bus-seattle.jpeg");
+  background-repeat: no-repeat;
   padding: .5em;
   padding-top: 3em;
 }
@@ -55,6 +56,7 @@ img {
   align-self: auto;
   background-color: white;
   border: 1em solid black;
+  width: 100%;
 }
 footer {
   border-radius: .5em;

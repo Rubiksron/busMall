@@ -13,11 +13,22 @@ Product.btnShowChart = document.getElementById('show-chart');
 Product.btnShowTable = document.getElementById('show-table');
 Product.btnReset = document.getElementById('reset');
 Product.tableDynamicEl = document.getElementById('table-dynamic');
+Product.tally = document.getElementById('tally');
+Product.totalClicks = 0;
 Product.pics = [document.getElementById('left'),
                 document.getElementById('center'),
                 document.getElementById('right')];
-Product.tally = document.getElementById('tally');
-Product.totalClicks = 0;
+var canvas = document.getElementById('canvas');
+var showChart = document.getElementById('show-chart');
+//the below is searching for totalClicks and not localStorage's length.
+//if you do search for length it will fail once you've cleared LC
+function checkLocalstorage() {
+  if(localStorage.totalClicks) {
+    Product.all = JSON.parse(localStorage.totalClicks);
+    console.log('data received from local storage.');
+  }
+}
+checkLocalstorage();
 
 function Product(name) {
   this.name = name;
@@ -62,28 +73,33 @@ Product.prototype.displayPics = function() {
 
 Product.prototype.handleClick = function(event) {
   console.log(Product.totalClicks, 'total clicks');
-  if(Product.totalClicks >= 14) {
+
+  if(Product.totalClicks >= 4) {
     Product.container.removeEventListener('click', Product.prototype.handleClick);
     Product.container.setAttribute('hidden', true);
     localStorage.setItem('totalClicks', JSON.stringify(Product.all));
     console.log('data transfering to local storage');
+    
     for( var i = 0; i < 3; i++ ) {
       Product.pics[i].setAttribute('hidden', true);
     }
+
     Product.btnClearLS.removeAttribute('hidden');
     Product.btnShowChart.removeAttribute('hidden');
     Product.btnShowTable.removeAttribute('hidden');
     Product.btnReset.removeAttribute('hidden');
 
   }
+
   if (event.target.id === 'image-container') {
     return alert('Click on an image!');
   }
   Product.totalClicks += 1;
   for(var i = 0; i < Product.names.length; i++){
     if(event.target.id === Product.all[i].name) {
+      console.log('++++++++++++', event.target.id);
       Product.all[i].votes += 1;
-      console.log(event.target.id + ' has ' + Product.all[i].votes + ' votes in ' + Product.all[i].views + ' views');
+      console.log(`${event.target.id} has ${Product.all[i].votes} votes in ${Product.all[i].views} views`);
     }
   }
   Product.prototype.displayPics();
@@ -99,6 +115,8 @@ Product.prototype.handleLocalStorage = function() {
 
 Product.prototype.handleShowChart = function() {
   canvas.removeAttribute('hidden');
+  localStorage.clear();
+  showChart.setAttribute('hidden', true);
   Product.prototype.makeChart();
   Product.tableDynamicEl.setAttribute('hidden', true);
 };
@@ -165,18 +183,12 @@ Product.prototype.collectData = function() {
   }
 };
 
-Product.prototype.makeChart = function() {
-  Product.prototype.collectData();
-  Product.getChart = document.getElementById('canvas').getContext('2d');
-  new Chart(Product.getChart).Bar(Product.data);
-};
-
 Product.data = {
   labels: Product.namesData,
   datasets: [
     {
-      fillColor: 'rgba(220,220,220,0.75)',
-      strokeColor: 'rgba(220,220,220,1)',
+      fillColor: 'rgba(22,220,220,0.75)',
+      strokeColor: 'rgba(220,220,220,0.75)',
       data: Product.viewsData
     },
     {
@@ -187,12 +199,18 @@ Product.data = {
   ]
 };
 
-if(localStorage.totalClicks) {
-  Product.all = JSON.parse(localStorage.totalClicks);
-  console.log('data received from local storage.');
-}
+Product.prototype.makeChart = function() {
+  Product.prototype.collectData();
+  Product.getChart = document.getElementById('canvas').getContext('2d');
+  var canvas = new Chart(Product.getChart).Bar(Product.data);
+  console.log('canvas element:', canvas.chart);
+};
+// if(localStorage.totalClicks) {
+//   Product.all = JSON.parse(localStorage.totalClicks);
+//   console.log('data received from local storage.');
+// }
 
-Product.btnReset.addEventListener('click', Product.prototype.handleReset)
+Product.btnReset.addEventListener('click', Product.prototype.handleReset);
 Product.container.addEventListener('click', Product.prototype.handleClick);
 Product.btnClearLS.addEventListener('click', Product.prototype.handleLocalStorage);
 Product.btnShowTable.addEventListener('click', Product.prototype.handleShowTable);
